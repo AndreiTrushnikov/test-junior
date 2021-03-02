@@ -14,7 +14,6 @@
             $json_cars = file_get_contents('data_cars.json');
             $data_attempts = json_decode($json_attempts, true);
             $data_cars = json_decode($json_cars, true);
-
             // Отлавливаем ошибки возникшие при превращении
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
@@ -47,6 +46,7 @@
             <div class="table">
                 <div class="table__header">
                     <div class="table__header-row">
+                        <div>id</div>
                         <div>Фио</div>
                         <div>Город</div>
                         <div>Машина</div>
@@ -63,20 +63,38 @@
                     </div>
                 </div>
                 <div class="table__body">
-                <?php foreach($data_cars as $key => $value){
-                    if(is_array($value)){
-                        foreach($value as $key2 => $value) {
-                            if(is_array($element)) {
-                                
+                        <?php foreach($data_cars as $key_cars => $value_cars){
+                            if(is_array($value_cars)){
+                                echo '<div class="table__body-row" data-id="'; echo $data_cars[$key_cars]['id']; echo '">';
+                                // print($data_cars[$key_cars]['id']);
+                                foreach($value_cars as $key_car => $value_car){
+                                    // if ($key2 == 'id') continue;
+                                    echo '<div>';
+                                    echo $value_car;
+                                    echo '</div>';
+                                }
+
+                                foreach($data_attempts as $key_attempts => $value_attempts) {
+                                    if(is_array($value_attempts)) {
+                                        foreach ($value_attempts as $key_attempt => $value_attempt) {
+                                            // print($key_attempt);
+                                            // print($value_attempt);
+                                            // echo '</br>';
+                                            // print_r($key_attempt);
+                                            // print($value_attempt);
+                                            // print($value_attempts[$key_attempt]);
+                                            if ($key_attempt == 'id' && $value_attempt == $data_cars[$key_cars]['id']) {
+                                                echo '<div>';
+                                                echo $value_attempt;
+                                                echo '</div>';
+                                            }
+                                        }
+                                    }
+                                }
+                                echo '</div>';
                             }
-                        }
-                    }
-                } ?>
-                    <div class="table__body-row">
-                        <div>Андрей</div>
-                        <div>Пермь</div>
-                        <div>Volvo</div>
-                        <div class="table__attempts">
+                        } ?>
+                        <!-- <div class="table__attempts">
                             <div class="table__attempts-sort">
                                 <span>15</span>
                                 <span>65</span>
@@ -84,9 +102,9 @@
                                 <span>5</span>
                             </div>
                         </div>
-                        <div>Сумма</div>
+                        <div>Сумма</div> -->
                     </div>
-                    <div class="table__body-row">
+                    <!-- <div class="table__body-row">
                         <div>Карл</div>
                         <div>Нью-Йорк</div>
                         <div>Boston</div>
@@ -113,7 +131,7 @@
                             </div>
                         </div>
                         <div>Сумма</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
