@@ -1,16 +1,40 @@
 * {
     margin: 0;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 1em 0;
+    text-align: center;
 }
 
 .table {
-    border: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
     border-bottom: 0;
+    margin-bottom: 2em;
 }
 
 .table__header-row,
 .table__body-row {
     border-bottom: 1px solid #ccc;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 
@@ -19,9 +43,15 @@
     width: 20%;
     padding: 10px;
     border-right: 1px solid #ccc;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     text-align: center;
 }
 
@@ -37,7 +67,7 @@
     background-color: rgb(188, 255, 149);
 }
 
-.table__header-row div.table__place,
+.table__header-row div.table__header-place,
 .table__body-row div.table__place {
     width: 10%;
 }
@@ -45,12 +75,25 @@
 .table__header div.table__summ,
 .table__body div.table__summ {
     width: 10%;
+    border-left: 1px solid #ccc;
 }
 
 .table__attempts {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     padding: 0 !important;
+    border-right: 0 !important;
+}
+
+.table__header .table__attempts > div:first-child {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 .table__body .table__attempts,
@@ -65,11 +108,17 @@
 
 .table__attempts .table__attempts-sort div {
     height: 100%;
-    width: 25%;
+    /* width: 25%; */
     padding: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     border-top: none !important;
     border-right: 1px solid #ccc;
 }
@@ -77,13 +126,23 @@
 .table__attempts div {
     width: 100%;
     padding: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-flex: 0;
+        -ms-flex-positive: 0;
+            flex-grow: 0;
 }
 
 .table__attempts div:last-child {
     border-top: 1px solid #ccc;
+    border-right: 0;
 }
 
 .sort-btn:hover {
@@ -93,9 +152,15 @@
 .sort-btn {
     width: 100%;
     height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     border-right: 1px solid #ccc;
     padding: 10px;
     position: relative;
@@ -116,9 +181,15 @@
 .table__header .table__summ {
     padding: 0;
     cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 div.sort--up,
@@ -129,22 +200,22 @@ div.sort--down {
 div.sort--up:after,
 div.sort--down:after {
     content: '\2193';
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 8px;
     height: 20px;
     position: absolute;
     right: 5px;
     top: 50%;
-    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
     cursor: pointer;
 }
 
 div.sort--up:after {
-    transform: rotate(180deg) translate(0, 50%);
+    -webkit-transform: rotate(180deg) translate(0, 50%);
+        -ms-transform: rotate(180deg) translate(0, 50%);
+            transform: rotate(180deg) translate(0, 50%);
 }
-
-.table__attempts .table__attempts-sort div:last-child {
-    border-right: 0;
-}
-
-

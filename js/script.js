@@ -74,5 +74,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
         });
-    }
+    };
+
+    // проставляем места
+    let placeCells = document.querySelectorAll('.table__place');
+    let currInd = 1;
+    placeCells.forEach(cell => {
+        cell.textContent = currInd;
+        currInd++
+    });
 });

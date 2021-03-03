@@ -14,6 +14,11 @@
             $json_cars = file_get_contents('data_cars.json');
             $data_attempts = json_decode($json_attempts, true);
             $data_cars = json_decode($json_cars, true);
+            // Определяем количество столбцов
+            $column_count = (round(count($data_attempts) / count($data_cars), 0, PHP_ROUND_HALF_DOWN));
+            // Определяем шиирину столбца попыток, исходя из количества попыток(столбцов попыток) и количества участников.
+            $width = (100 / $column_count);
+
             // Отлавливаем ошибки возникшие при превращении
             switch (json_last_error()) {
                 case JSON_ERROR_NONE:
@@ -43,68 +48,74 @@
             if ($data_error !='') echo $data_error;
         ?>
 
-        <div class="table">
-            <div class="table__header">
-                <div class="table__header-row">
-                    <div class="table__place">Место</div>
-                    <div>Фио</div>
-                    <div>Город</div>
-                    <div>Машина</div>
-                    <div class="table__attempts">
-                        <div>Попытки</div>
-                        <div class="table__attempts-sort sort-btns">
-                            <div class="sort-btn" data-sort-column="1">1</div>
-                            <div class="sort-btn" data-sort-column="2">2</div>
-                            <div class="sort-btn" data-sort-column="3">3</div>
-                            <div class="sort-btn" data-sort-column="4">4</div>
+        <div class="container">
+            <h1 class="title">Результаты спортивного соревнования</h1>
+            <div class="table">
+                <div class="table__header">
+                    <div class="table__header-row">
+                        <div class="table__header-place">Место</div>
+                        <div>Фио</div>
+                        <div>Город</div>
+                        <div>Машина</div>
+                        <div class="table__attempts">
+                            <div>Попытки</div>
+                            <div class="table__attempts-sort sort-btns">
+                                <?
+                                    // Отрисовываем количество столбцов попыток в хедере таблицы, в зависимости от определенного ранее $column_count
+                                    for ($i = 1; $i < $column_count+1; $i++) {
+                                        echo '<div class="sort-btn" data-sort-column="' . $i . '" style="width: ' . $width . '%;">' . $i . '</div>';
+                                    };
+                                ?>
+                            </div>
+                        </div>
+                        <div class="table__summ sort-btns">
+                            <div class="sort-btn" data-sort-column="0">Сумма</div>
                         </div>
                     </div>
-                    <div class="table__summ sort-btns">
-                        <div class="sort-btn" data-sort-column="0">Сумма</div>
-                    </div>
                 </div>
-            </div>
-            <div class="table__body">
-                    <?php foreach($data_cars as $key_cars => $value_cars){
-                        if(is_array($value_cars)){
-                            echo '<div class="table__body-row" data-id="' . $data_cars[$key_cars]['id'] . '">';
-                                echo '<div class="table__place">';
-                                echo '';
-                                echo '</div>';
-                                foreach($value_cars as $key_car => $value_car){
-                                    if ($key_car == 'id') continue;
-                                    echo '<div>';
-                                    echo $value_car;
-                                    echo '</div>';
-                                }
+                <div class="table__body">
+                        <?php
+                        foreach($data_cars as $key_cars => $value_cars){
+                            if(is_array($value_cars)){
+                                echo '<div class="table__body-row" data-id="' . $data_cars[$key_cars]['id'] . '">';
+                                    echo '<div class="table__place"></div>';
 
-                                echo '<div class="table__attempts">';
-                                    echo '<div class="table__attempts-sort">';
-                                        $summ = 0;
-                                        $i = 1;
-                                        foreach($data_attempts as $key_attempts => $value_attempts) {
-                                            if(is_array($value_attempts)) {
-                                                foreach ($value_attempts as $key_attempt => $value_attempt) {
-                                                    if ($key_attempt == 'id' && $value_attempt == $data_cars[$key_cars]['id']) {
-                                                        echo '<div data-sort-column="' . $i . '" data-sort="' .  $value_attempts['result'] . '">';
-                                                        echo $value_attempts['result'];
-                                                        echo '</div>';
-                                                        $summ = $summ + $value_attempts['result'];
-                                                        $i++;
-                                                    }
-                                                };
+                                    foreach($value_cars as $key_car => $value_car){
+                                        if ($key_car == 'id') continue;
+                                        echo '<div>';
+                                            echo $value_car;
+                                        echo '</div>';
+                                    }
+
+                                    // Столбец с результатами каждой попытки
+                                    echo '<div class="table__attempts">';
+                                        echo '<div class="table__attempts-sort">';
+                                            $summ = 0;
+                                            $i = 1;
+                                            foreach($data_attempts as $key_attempts => $value_attempts) {
+                                                if(is_array($value_attempts)) {
+                                                    foreach ($value_attempts as $key_attempt => $value_attempt) {
+                                                        if ($key_attempt == 'id' && $value_attempt == $data_cars[$key_cars]['id']) {
+                                                            echo '<div data-sort-column="' . $i . '" data-sort="' .  $value_attempts['result'] . '" style="width: ' . $width . '%">';
+                                                            echo $value_attempts['result'];
+                                                            echo '</div>';
+                                                            $summ = $summ + $value_attempts['result'];
+                                                            $i++;
+                                                        };
+                                                    };
+                                                }
                                             }
-                                        }
+                                        echo '</div>';
+                                    echo '</div>';
+
+                                    // сумма
+                                    echo '<div class="table__summ" data-sort-column="0" data-sort="' .  $summ . '">';
+                                        echo $summ;
                                     echo '</div>';
                                 echo '</div>';
-
-                                // сумма
-                                echo '<div class="table__summ" data-sort-column="0" data-sort="' .  $summ . '">';
-                                echo $summ;
-                                echo '</div>';
-                            echo '</div>';
-                        }
-                    } ?>
+                            }
+                        } ?>
+                    </div>
                 </div>
             </div>
         </div>
