@@ -43,100 +43,73 @@
             if ($data_error !='') echo $data_error;
         ?>
 
-            <div class="table">
-                <div class="table__header">
-                    <div class="table__header-row">
-                        <div>id</div>
-                        <div>Фио</div>
-                        <div>Город</div>
-                        <div>Машина</div>
-                        <div class="table__attempts">
-                            <div>Попытки</div>
-                            <div class="table__attempts-sort">
-                                <span>1</span>
-                                <span>2</span>
-                                <span>3</span>
-                                <span>4</span>
-                            </div>
+        <div class="table">
+            <div class="table__header">
+                <div class="table__header-row">
+                    <div class="table__place">Место</div>
+                    <div>Фио</div>
+                    <div>Город</div>
+                    <div>Машина</div>
+                    <div class="table__attempts">
+                        <div>Попытки</div>
+                        <div class="table__attempts-sort sort-btns">
+                            <div class="sort-btn" data-sort-column="1">1</div>
+                            <div class="sort-btn" data-sort-column="2">2</div>
+                            <div class="sort-btn" data-sort-column="3">3</div>
+                            <div class="sort-btn" data-sort-column="4">4</div>
                         </div>
-                        <div>Сумма</div>
+                    </div>
+                    <div class="table__summ sort-btns">
+                        <div class="sort-btn" data-sort-column="0">Сумма</div>
                     </div>
                 </div>
-                <div class="table__body">
-                        <?php foreach($data_cars as $key_cars => $value_cars){
-                            if(is_array($value_cars)){
-                                echo '<div class="table__body-row" data-id="'; echo $data_cars[$key_cars]['id']; echo '">';
-                                // print($data_cars[$key_cars]['id']);
+            </div>
+            <div class="table__body">
+                    <?php foreach($data_cars as $key_cars => $value_cars){
+                        if(is_array($value_cars)){
+                            echo '<div class="table__body-row" data-id="' . $data_cars[$key_cars]['id'] . '">';
+                                echo '<div class="table__place">';
+                                echo '';
+                                echo '</div>';
                                 foreach($value_cars as $key_car => $value_car){
-                                    // if ($key2 == 'id') continue;
+                                    if ($key_car == 'id') continue;
                                     echo '<div>';
                                     echo $value_car;
                                     echo '</div>';
                                 }
 
-                                foreach($data_attempts as $key_attempts => $value_attempts) {
-                                    if(is_array($value_attempts)) {
-                                        foreach ($value_attempts as $key_attempt => $value_attempt) {
-                                            // print($key_attempt);
-                                            // print($value_attempt);
-                                            // echo '</br>';
-                                            // print_r($key_attempt);
-                                            // print($value_attempt);
-                                            // print($value_attempts[$key_attempt]);
-                                            if ($key_attempt == 'id' && $value_attempt == $data_cars[$key_cars]['id']) {
-                                                echo '<div>';
-                                                echo $value_attempt;
-                                                echo '</div>';
+                                echo '<div class="table__attempts">';
+                                    echo '<div class="table__attempts-sort">';
+                                        $summ = 0;
+                                        $i = 1;
+                                        foreach($data_attempts as $key_attempts => $value_attempts) {
+                                            if(is_array($value_attempts)) {
+                                                foreach ($value_attempts as $key_attempt => $value_attempt) {
+                                                    if ($key_attempt == 'id' && $value_attempt == $data_cars[$key_cars]['id']) {
+                                                        echo '<div data-sort-column="' . $i . '" data-sort="' .  $value_attempts['result'] . '">';
+                                                        echo $value_attempts['result'];
+                                                        echo '</div>';
+                                                        $summ = $summ + $value_attempts['result'];
+                                                        $i++;
+                                                    }
+                                                };
                                             }
                                         }
-                                    }
-                                }
+                                    echo '</div>';
                                 echo '</div>';
-                            }
-                        } ?>
-                        <!-- <div class="table__attempts">
-                            <div class="table__attempts-sort">
-                                <span>15</span>
-                                <span>65</span>
-                                <span>1</span>
-                                <span>5</span>
-                            </div>
-                        </div>
-                        <div>Сумма</div> -->
-                    </div>
-                    <!-- <div class="table__body-row">
-                        <div>Карл</div>
-                        <div>Нью-Йорк</div>
-                        <div>Boston</div>
-                        <div class="table__attempts">
-                            <div class="table__attempts-sort">
-                                <span>135</span>
-                                <span>635</span>
-                                <span>14</span>
-                                <span>54</span>
-                            </div>
-                        </div>
-                        <div>Сумма</div>
-                    </div>
-                    <div class="table__body-row">
-                        <div>Вика</div>
-                        <div>Москва</div>
-                        <div>Ford</div>
-                        <div class="table__attempts">
-                            <div class="table__attempts-sort">
-                                <span>55</span>
-                                <span>65</span>
-                                <span>18</span>
-                                <span>7</span>
-                            </div>
-                        </div>
-                        <div>Сумма</div>
-                    </div> -->
+
+                                // сумма
+                                echo '<div class="table__summ" data-sort-column="0" data-sort="' .  $summ . '">';
+                                echo $summ;
+                                echo '</div>';
+                            echo '</div>';
+                        }
+                    } ?>
                 </div>
             </div>
-
-
+        </div>
     </main>
+<script src="/js/script.js"></script>
 </body>
 </html>
 

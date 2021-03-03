@@ -1,0 +1,78 @@
+'use sctrict';
+
+document.addEventListener('DOMContentLoaded', function () {
+    let parent = document.querySelector('.table__body');
+    let firstSort = document.querySelector('.table__header .sort-btn[data-sort-column="0"]');
+
+    // Вспомогательная функция - вставка элемента после
+    function insertAfter(elem, refElem) {
+        return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
+    }
+
+    // Функция сортировки
+    function sort(direction, selector, elem) {
+        if (direction != 'up' && direction != 'down') return;
+
+        let sortBtns = document.querySelectorAll('.sort-btns>div');
+
+        sortBtns.forEach(btn => {
+            btn.classList.remove('sort--up');
+            btn.classList.remove('sort--down');
+        });
+
+        if (direction == 'down') {
+            for (let i = 0; i < parent.children.length; i++) {
+                for (let j = i; j < parent.children.length; j++) {
+                    if (
+                        +parent.children[i].querySelector(selector).getAttribute('data-sort')
+                        <
+                        +parent.children[j].querySelector(selector).getAttribute('data-sort')
+                    ) {
+                        replaceNode = parent.replaceChild(parent.children[j], parent.children[i]);
+                        insertAfter(replaceNode, parent.children[i])
+                    }
+                }
+            }
+            elem.classList.add('sort--down');
+        };
+        if (direction == 'up') {
+            for (let i = 0; i < parent.children.length; i++) {
+                for (let j = i; j < parent.children.length; j++) {
+                    if (
+                        +parent.children[i].querySelector(selector).getAttribute('data-sort')
+                        >
+                        +parent.children[j].querySelector(selector).getAttribute('data-sort')
+                    ) {
+                        replaceNode = parent.replaceChild(parent.children[j], parent.children[i]);
+                        insertAfter(replaceNode, parent.children[i])
+                    }
+                }
+            }
+            elem.classList.add('sort--up');
+        };
+    };
+
+    // Сортировка при открытии страницы по сумме очков вверх
+    sort('down', `[data-sort-column="0"]`, firstSort);
+
+    // Вешаем слушатель на каждый див
+    let sortBtns = document.querySelectorAll('.sort-btns>div');
+    if (sortBtns) {
+        sortBtns.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let column = btn.getAttribute('data-sort-column'); // находим номер столбца, по которому будем сортировать
+
+                // если на псевдокнопке уже есть класс sort--down - меняем классы, сортируем вверх
+                if (btn.classList.contains('sort--down')) {
+                    sort('up', `[data-sort-column="${column}"]`, btn);
+                } else {
+                    // иначе сортируем по умолчанию вниз
+                    sort('down', `[data-sort-column="${column}"]`, btn);
+                }
+            })
+        });
+    }
+});

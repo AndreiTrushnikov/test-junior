@@ -4,13 +4,13 @@
 }
 
 .table {
-    border: 1px solid black;
+    border: 1px solid #ccc;
     border-bottom: 0;
 }
 
 .table__header-row,
 .table__body-row {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #ccc;
     display: flex;
 }
 
@@ -18,10 +18,33 @@
 .table__body-row > div {
     width: 20%;
     padding: 10px;
-    border-right: 1px solid black;
+    border-right: 1px solid #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+}
+
+.table__body-row:hover {
+    background-color: rgb(218, 252, 198);
+}
+
+.table__body-row > div:hover {
+    background-color: rgb(204, 255, 175);
+}
+
+.table__body-row .table__attempts-sort div:hover {
+    background-color: rgb(188, 255, 149);
+}
+
+.table__header-row div.table__place,
+.table__body-row div.table__place {
+    width: 10%;
+}
+
+.table__header div.table__summ,
+.table__body div.table__summ {
+    width: 10%;
 }
 
 .table__attempts {
@@ -29,13 +52,26 @@
     flex-direction: column;
     padding: 0 !important;
 }
+
 .table__body .table__attempts,
 .table__body .table__attempts div:last-child {
     border-top: 0;
 }
 
 .table__attempts-sort {
+    height: 100%;
     padding: 0 !important;
+}
+
+.table__attempts .table__attempts-sort div {
+    height: 100%;
+    width: 25%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: none !important;
+    border-right: 1px solid #ccc;
 }
 
 .table__attempts div {
@@ -47,19 +83,67 @@
 }
 
 .table__attempts div:last-child {
-    border-top: 1px solid black;
+    border-top: 1px solid #ccc;
 }
 
-.table__attempts .table__attempts-sort span {
-    width: 25%;
-    display: inline-flex;
+.sort-btn:hover {
+    background-color: #ccc;
+}
+
+.sort-btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid black;
+    border-right: 1px solid #ccc;
     padding: 10px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    background-color: transparent;
 }
 
-.table__attempts .table__attempts-sort span:last-child {
+.sort-btn:focus,
+.sort-btn:active,
+.sort-btn:hover {
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.table__header .table__summ {
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.sort--up,
+div.sort--down {
+    background-color: rgb(238, 238, 238);
+}
+
+div.sort--up:after,
+div.sort--down:after {
+    content: '\2193';
+    display: flex;
+    width: 8px;
+    height: 20px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+}
+
+div.sort--up:after {
+    transform: rotate(180deg) translate(0, 50%);
+}
+
+.table__attempts .table__attempts-sort div:last-child {
     border-right: 0;
 }
 
