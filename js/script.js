@@ -9,13 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
     }
 
+    // Находим кнопки сортировки
+    let sortBtns = document.querySelectorAll('.sort-btns>div');
+    let sortBtnsArray = Array.prototype.slice.call(sortBtns);
+
     // Функция сортировки
     function sort(direction, selector, elem) {
         if (direction != 'up' && direction != 'down') return;
 
-        let sortBtns = document.querySelectorAll('.sort-btns>div');
-
-        sortBtns.forEach(btn => {
+        sortBtnsArray.forEach(btn => {
             btn.classList.remove('sort--up');
             btn.classList.remove('sort--down');
         });
@@ -56,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     sort('down', `[data-sort-column="0"]`, firstSort);
 
     // Вешаем слушатель на каждый див
-    let sortBtns = document.querySelectorAll('.sort-btns>div');
     if (sortBtns) {
         sortBtns.forEach(btn => {
             btn.addEventListener('click', function (e) {
